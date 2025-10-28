@@ -1,0 +1,1 @@
+rsync -avz ./ root@raye:./ezlivebot/
