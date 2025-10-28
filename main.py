@@ -77,7 +77,7 @@ def get_sender(msg):
     user = msg.from_user
     if user.username is not None:
         return user.username
-    if user.last_name is None:
+    if user.last_name is not None:
         return user.first_name + ' ' + user.last_name
     return user.first_name
 
