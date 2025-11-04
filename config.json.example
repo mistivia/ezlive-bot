@@ -1,0 +1,13 @@
+{
+    "server": "irc.example.com",
+    "port": 6697,
+    "nickname": "ezlivebot",
+    "channels": [
+        "#xxxxxxxxx",
+        "#yyyyyyyyy"
+    ],
+    "use_ssl": true,
+    "tgtoken": "xxxxxxx:xxxxxxxxxxxxxxxxxx",
+    "tgchat": -0000000000000,
+    "tgthread": 0000
+}

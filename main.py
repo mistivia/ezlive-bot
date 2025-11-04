@@ -4,26 +4,28 @@ from airc import Client, Message
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
+import json
 
-SERVER = "raye.mistivia.com"
-PORT = 6697
-NICKNAME = "ezlivebot"
-CHANNELS = [
-    "#xxxxxxxxx",
-    "#xxxxxxxxx"
-]
+config = None
+with open('config.json', 'r') as fp:
+    config = json.load(fp)
 
-TGTOKEN = 'xxxxxxxxx:xxxxxxxx'
-TGCHAT = -0000000000000
-TGTHREAD = 000
+SERVER = config['server']
+PORT = config['port']
+NICKNAME = config['nickname']
+CHANNELS = config['channels']
+USE_SSL = config['use_ssl']
+TGTOKEN = config['tgtoken']
+TGCHAT = config['tgchat']
+TGTHREAD = config['tgthread']
 
 # --- Instantiate the Client ---
 irc_client = Client(
     host=SERVER,
     port=PORT,
     nickname=NICKNAME,
-    realname="My Awesome Async Bot",
-    use_ssl=True
+    realname="bot",
+    use_ssl=USE_SSL
 )
 
 tgbot = Bot(token=TGTOKEN)
@@ -75,9 +77,9 @@ def get_sender(msg):
     if msg.from_user is None:
         return
     user = msg.from_user
-    if user.username is not None:
-        return user.username
-    if user.last_name is not None:
+    # if user.username is not None:
+    #     return user.username
+    if user.last_name is None:
         return user.first_name + ' ' + user.last_name
     return user.first_name
 
