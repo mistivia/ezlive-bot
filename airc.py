@@ -166,7 +166,10 @@ class Client:
 
     async def send_raw(self, data: str):
         if self._writer and self._is_connected:
-            encoded_data = data.encode('utf-8') + b'\r\n'
+            encoded_data = data.encode('utf-8')
+            if len(encoded_data) > 500:
+                encoded_data = encoded_data[:500]
+            encoded_data = encoded_data + b'\r\n'
             self._writer.write(encoded_data)
             await self._writer.drain()
             logging.debug(f"-> {data}")
@@ -174,7 +177,9 @@ class Client:
             logging.error("Cannot send data: not connected.")
 
     async def send_privmsg(self, target: str, text: str):
-        await self.send_raw(f"PRIVMSG {target} :{text}")
+        lines = text.split('\n')
+        for line in text.split('\n'):
+            await self.send_raw(f"PRIVMSG {target} :{line}")
 
     async def join(self, channel: str):
         await self.send_raw(f"JOIN {channel}")
